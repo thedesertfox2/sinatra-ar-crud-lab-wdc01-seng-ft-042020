@@ -1,7 +1,12 @@
 
 require_relative '../../config/environment'
 
+
 class ApplicationController < Sinatra::Base
+
+  set :views, "app/views"
+  set :method_override, true
+
 
   configure do
     set :public_folder, 'public'
@@ -38,6 +43,28 @@ class ApplicationController < Sinatra::Base
     @article = Article.find(article_id)
     erb :show
   end
+
+  get "/articles/:id/edit" do
+     @article= Article.find(params[:id])
+     erb :edit
+  end
+
+  patch "/articles/:id" do
+     article = Article.find(params[:id])
+     binding.pry
+     article.update(title: params[:title], 
+                    content: params[:content])
+    redirect "/articles/#{article.id}"
+  end
+
+#   put "/books/:id" do 
+#     book = Book.find(params[:id])
+#     book.update(title: params[:title],
+#                  author: params[:author],
+#                  snippet: params[:snippet])
+#     redirect "/books/#{book.id}"
+# end
+
 
 end
 

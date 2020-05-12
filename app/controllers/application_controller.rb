@@ -51,10 +51,13 @@ class ApplicationController < Sinatra::Base
 
   patch "/articles/:id" do
      article = Article.find(params[:id])
-     binding.pry
-     article.update(title: params[:title], 
-                    content: params[:content])
-    redirect "/articles/#{article.id}"
+     article.update(title: params[:title], content: params[:content])
+     redirect "/articles/#{article.id}"
+  end
+
+  delete "/articles/:id" do
+    Article.delete(params[:id])
+    redirect "/articles"
   end
 
 #   put "/books/:id" do 
